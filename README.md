@@ -1,5 +1,5 @@
   <h1 align="center">
-# Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
+	Google (Noto Color Emoji 16.0) Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
   </h1>
 
 
