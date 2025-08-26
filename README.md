@@ -8,7 +8,7 @@
 <img width="512" height="512" alt="f397a83c-dc22-4e43-8d2c-a5a1cdca7b34" src="https://github.com/user-attachments/assets/86a3bf06-6ddf-4ad0-b64b-dc6e56f118fd" />
 </p>
 
-
+<p font size = 30px>
 ## 📋 Índice
 1. [Descripción del Proyecto](#descripción-del-proyecto)  
 2. [Funcionalidades](#funcionalidades)  
@@ -17,7 +17,7 @@
 5. [Personas Contribuyentes](#personas-contribuyentes)  
 6. [Personas Desarrolladoras del Proyecto](#personas-desarrolladoras-del-proyecto)  
 7. [Licencia](#licencia)  
-
+</p>
 ---
 
 ## Descripción del Proyecto
