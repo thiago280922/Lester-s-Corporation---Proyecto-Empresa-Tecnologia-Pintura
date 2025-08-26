@@ -1,57 +1,70 @@
-  <h1 align="center">
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg" width="50" alt="Bandera de Argentina"/>
-</p> Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
-  </h1>
+<!-- Título centrado con bandera -->
+<h1 align="center">🇦🇷 Lester-s-Corporation</h1>
 
+<!-- Imagen de portada centrada -->
 <p align="center">
-<img width="512" height="512" alt="f397a83c-dc22-4e43-8d2c-a5a1cdca7b34" src="https://github.com/user-attachments/assets/caa0abe7-fc8d-48b3-85ed-6a1a54188b9c" />
+  <img src="https://github.com/user-attachments/assets/f397a83c-dc22-4e43-8d2c-a5a1cdca7b34" width="512" height="512" alt="Imagen del proyecto" />
 </p>
 
+<!-- Badges centrados -->
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License" />
+  <img src="https://img.shields.io/badge/Estado-Activo-brightgreen" alt="Estado del proyecto" />
+  <img src="https://img.shields.io/badge/Tecnologias-Varias-blue" alt="Tecnologías" />
+</p>
 
+<!-- Índice -->
+## 📋 Índice
+1. [Descripción del Proyecto](#descripción-del-proyecto)  
+2. [Funcionalidades](#funcionalidades)  
+3. [Acceso al Proyecto](#acceso-al-proyecto)  
+4. [Tecnologías Utilizadas](#tecnologías-utilizadas)  
+5. [Personas Contribuyentes](#personas-contribuyentes)  
+6. [Personas Desarrolladoras del Proyecto](#personas-desarrolladoras-del-proyecto)  
+7. [Licencia](#licencia)  
 
+---
 
-Descripcion Del Proyecto
+## Descripción del Proyecto
+Breve descripción sobre qué hace el proyecto y su objetivo principal.
 
+---
 
-Funcionalidades
+## Funcionalidades
+- Funcionalidad 1  
+- Funcionalidad 2  
+- Funcionalidad 3  
 
+---
 
-Acceso al proyecto 
+## Acceso al Proyecto
+El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daoldev)
 
+---
 
-Tecnologias Utilizadas
+## Tecnologías Utilizadas
+- Tecnología 1  
+- Tecnología 2  
+- Tecnología 3  
 
+---
 
-Personas Contribuyentes
+## Personas Contribuyentes
+- Persona 1  
+- Persona 2  
+- Persona 3  
 
-https://github.com/daoldev
+---
 
-Desarrolladores Del Proyeto
+## Personas Desarrolladoras del Proyecto
+- Rosendo Osores  
+- Morena Gonzalez  
+- Thiago Casiano  
+- Brunella Figallo  
 
--Rosendo Osores
+---
 
--Morena Gonzalez
+## Licencia
+Este proyecto está bajo la licencia:  
+[MIT License](LICENSE)
 
--Thiago Casiano
-
--Brunella Figallo
-
-Título e imagen de portada; Insignias; Índice; Descripción del Proyecto; Estado del proyecto; Demostración de funciones y aplicaciones; Acceso al Proyecto; Tecnologías utilizadas; Personas Contribuyentes; Personas Desarrolladoras del Proyecto; Licencia.
-
-VER: https://www.aluracursos.com/blog/como-escribir-un-readme-increible-en-tu-github
-
-
-
-
-
-
-
-
-
-
-## Licencia  
-
-Este proyecto está bajo la licencia:
-
-[![Licencia](https://img.shields.io/badge/Licencia-Apache%202.0-blue.svg)](LICENSE)
