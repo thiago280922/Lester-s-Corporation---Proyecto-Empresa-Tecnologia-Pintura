@@ -21,19 +21,17 @@
 ---
 
 ## Descripción del Proyecto
-Breve descripción sobre qué hace el proyecto y su objetivo principal.
+
 
 ---
 
 ## Funcionalidades
-- Funcionalidad 1  
-- Funcionalidad 2  
-- Funcionalidad 3  
+
 
 ---
 
 ## Acceso al Proyecto
-El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daoldev)
+El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daoldev
 
 ---
 
