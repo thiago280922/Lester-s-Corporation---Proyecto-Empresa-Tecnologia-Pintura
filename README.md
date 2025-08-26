@@ -57,10 +57,10 @@ El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daold
 
 ---
 
-## Licencia
 ## Licencia  
 
 Este proyecto está bajo la licencia  
 [![Licencia](https://img.shields.io/badge/Apache%202.0-blue.svg)](LICENSE)
+
 
 
