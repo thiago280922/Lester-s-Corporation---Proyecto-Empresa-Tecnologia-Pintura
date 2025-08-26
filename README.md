@@ -2,21 +2,14 @@
   <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg" width="50" alt="Bandera de Argentina"/>
 </p>
 
-<h1 align="center"> Lester-s-Corporation - Empresa Tecnologia - Pintura</h1>
+<h1 align="center"> Lester-s-Corporation-Empresa Tecnologia-Pintura</h1>
 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f397a83c-dc22-4e43-8d2c-a5a1cdca7b34" width="512" height="512" alt="Imagen del proyecto" />
 </p>
 
-<!-- Badges centrados -->
-<p align="center">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="License" />
-  <img src="https://img.shields.io/badge/Estado-Activo-brightgreen" alt="Estado del proyecto" />
-  <img src="https://img.shields.io/badge/Tecnologias-Varias-blue" alt="Tecnologías" />
-</p>
 
-<!-- Índice -->
 ## 📋 Índice
 1. [Descripción del Proyecto](#descripción-del-proyecto)  
 2. [Funcionalidades](#funcionalidades)  
