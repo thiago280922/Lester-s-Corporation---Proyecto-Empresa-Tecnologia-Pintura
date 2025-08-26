@@ -61,8 +61,9 @@
 Este proyecto está bajo la licencia:  
 </p>
 <p align = center>
- 
- ## Licencia       [![Licencia](https://img.shields.io/badge/Licencia-Apache%202.0-blue.svg)](LICENSE)
-
+  ## Licencia   
+</p>
+<p align = center>
+  [![Licencia](https://img.shields.io/badge/Licencia-Apache%202.0-blue.svg)](LICENSE)
 </p>
 
