@@ -1,7 +1,10 @@
-<!-- Título centrado con bandera -->
-<h1 align="center">🇦🇷 Lester-s-Corporation</h1>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg" width="50" alt="Bandera de Argentina"/>
+</p>
 
-<!-- Imagen de portada centrada -->
+<h1 align="center"> Lester-s-Corporation</h1>
+
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f397a83c-dc22-4e43-8d2c-a5a1cdca7b34" width="512" height="512" alt="Imagen del proyecto" />
 </p>
