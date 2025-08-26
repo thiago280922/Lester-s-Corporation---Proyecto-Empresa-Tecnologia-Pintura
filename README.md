@@ -11,7 +11,6 @@
 
   
 ## 📋 Índice
-<p font size = 30px>
 1. [Descripción del Proyecto](#descripción-del-proyecto)  
 2. [Funcionalidades](#funcionalidades)  
 3. [Acceso al Proyecto](#acceso-al-proyecto)  
@@ -19,7 +18,6 @@
 5. [Personas Contribuyentes](#personas-contribuyentes)  
 6. [Personas Desarrolladoras del Proyecto](#personas-desarrolladoras-del-proyecto)  
 7. [Licencia](#licencia)  
-</p>
 ---
 
 ## Descripción del Proyecto
