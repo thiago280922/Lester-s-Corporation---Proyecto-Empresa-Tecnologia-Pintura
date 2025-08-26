@@ -1,5 +1,6 @@
   <h1 align="center">
-🇦🇷	Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
+  :flag_ar:
+ Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
   </h1>
 
 
