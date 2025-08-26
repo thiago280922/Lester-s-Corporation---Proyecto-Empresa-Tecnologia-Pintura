@@ -3,7 +3,6 @@
   </h1>
 
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
 
 
 <p align="center">
