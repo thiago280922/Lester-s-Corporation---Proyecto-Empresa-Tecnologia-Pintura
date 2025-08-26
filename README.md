@@ -1,5 +1,7 @@
   <h1 align="center">
-  🇦🇷 Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg" width="50" alt="Bandera de Argentina"/>
+</p> Lester-s-Corporation-Proyecto-Empresa-Tecnologia-Pintura
   </h1>
 
 
