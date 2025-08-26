@@ -31,25 +31,23 @@
 ---
 
 ## Acceso al Proyecto
-El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daoldev
+
+
 
 ---
 
 ## Tecnologías Utilizadas
-- Tecnología 1  
-- Tecnología 2  
-- Tecnología 3  
+
+
 
 ---
 
-## Personas Contribuyentes
-- Persona 1  
-- Persona 2  
-- Persona 3  
+## Personas Contribuyentes  
 
 ---
 
 ## Personas Desarrolladoras del Proyecto
+
 - Rosendo Osores  
 - Morena Gonzalez  
 - Thiago Casiano  
@@ -60,6 +58,7 @@ El proyecto se puede consultar en GitHub: [Repositorio](https://github.com/daold
 ## Licencia  
 
 Este proyecto está bajo la licencia  
+
 [![Licencia](https://img.shields.io/badge/Apache%202.0-blue.svg)](LICENSE)
 
 
