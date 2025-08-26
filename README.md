@@ -59,8 +59,7 @@
 
 
 
-  ## Licencia   
-<p align = center>
+  ## Licencia 
+  
   [![Licencia](https://img.shields.io/badge/Licencia-Apache%202.0-blue.svg)](LICENSE)
-</p>
 
