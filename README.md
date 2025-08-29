@@ -44,6 +44,8 @@
 
 ## Personas Contribuyentes  
 
+https://github.com/daoldev
+
 ---
 
 ## Personas Desarrolladoras del Proyecto
