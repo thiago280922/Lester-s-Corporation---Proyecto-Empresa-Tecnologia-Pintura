@@ -23,7 +23,7 @@
 ## Descripción del Proyecto
 
 <p align = center>
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/dcc8ce01-4b61-4fd5-b98c-8778d8090dc3" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/dcc8ce01-4b61-4fd5-b98c-8778d8090dc3" />
 </p>
 ---
 
