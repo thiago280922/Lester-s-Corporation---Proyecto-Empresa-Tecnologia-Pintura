@@ -23,6 +23,8 @@
 ## Descripción del Proyecto
 
 
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/8608cf1b-ae38-4e8f-a7da-d1bcedbef109" />
+
 ---
 
 ## Funcionalidades
