@@ -46,7 +46,7 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="60" alt="Python logo"/>
   <img src="https://img.shields.io/badge/Bootstrap-563d7c?style=for-the-badge&logo=bootstrap&logoColor=white" width="100" alt="Bootstrap logo"/>
   <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" width="100" alt="Flask logo"/>
-  <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-vertical.png"/>
+  <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-vertical.png" width="60" alt="Fire Base logo"/>
 
 </p>
 
