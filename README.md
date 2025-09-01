@@ -17,7 +17,8 @@
 4. [Tecnologías Utilizadas](#tecnologías-utilizadas)  
 5. [Personas Contribuyentes](#personas-contribuyentes)  
 6. [Personas Desarrolladoras del Proyecto](#personas-desarrolladoras-del-proyecto)  
-7. [Licencia](#licencia)  
+7. [Licencia](#licencia)
+   
 ---
 
 ## Descripción del Proyecto
