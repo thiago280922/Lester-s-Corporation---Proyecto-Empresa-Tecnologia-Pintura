@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Empresa Tecnologia</title>
+    <link rel="stylesheet" href="/static/css/registro.css" />
+</head>
+<body>
+
+    <img src="/static/img/Captura de pantalla 2025-09-01 020054.png" alt="">
+
+    <div class="seccion1">
+        <div class="div">
+            <form id="register-form">
+                <h2>Empresa Tecnologia</h2>
+                <input id="register-username" type="text" placeholder="Usuario" />
+                <input id="register-email" type="email" placeholder="Email" required />
+                <input id="register-password" type="password" placeholder="Contraseña" minlength="6" required />
+                <button type="submit">Registrarse</button>
+                <p>¿Ya estas registrado? <a href="index.html">Inicia Sesion</a></p>
+                <div id="message" style="color: red; margin-top: 10px;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
+        authDomain: "empresa-tecnologia.firebaseapp.com",
+        projectId: "empresa-tecnologia",
+        storageBucket: "empresa-tecnologia.appspot.com",
+        messagingSenderId: "317305921158",
+        appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
+        measurementId: "G-3P63NE5HQF"
+};
+
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const registerForm = document.getElementById('register-form');
+        const messageDiv = document.getElementById('message');
+
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById('register-email').value;
+          const password = document.getElementById('register-password').value;
+
+          messageDiv.textContent = '';
+          messageDiv.style.color = 'black';
+
+          try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = `Registro exitoso. Bienvenido ${userCredential.user.email}`;
+            registerForm.reset();
+
+            // Opcional: redirigir al login o dashboard
+            // window.location.href = "index.html";
+
+          } catch (error) {
+            messageDiv.style.color = 'red';
+            messageDiv.textContent = `Error en registro: ${error.message}`;
+          }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: black;
+}
+
+img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+a{
+    font-size: 200%;
+    color: rgb(25, 25, 231);
+}
+
+p, .registro{
+    font-size: 150%;
+    margin-top: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 100px;
+}
+
+.subtitulo{
+    font-size: 40px;
+}
+
+input{
+    width: 80%;
+}
+
+input, button, p {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.seccion1 {
+    margin: 0 auto;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.div {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid white;
+    background: rgba(255, 255, 255, 0.1); /* Fondo blanco translúcido */
+    border-radius: 20px;
+    padding: 30px;
+
+    width: 400px; 
+    height: 400px;
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sombrado suave */
+    backdrop-filter: blur(10px); /* Difuminado del fondo */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidad con Safari */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Borde semitransparente */
+}
+
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media (min-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    .card { max-width: 250px; }
+    .div {margin-top: 250px;}
+}
+
+
+@media (max-width: 400px) {
+    body { font-size: 14px; }
+
+    .seccion1, .login-form {
+        flex-direction: column;
+    }
+
+    .div {
+        max-width: 90%;
+    }
+
+    input, button {
+        width: 60px;
+    }
+
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.3rem; }
+    p  {font-size: 13px;}
+}
