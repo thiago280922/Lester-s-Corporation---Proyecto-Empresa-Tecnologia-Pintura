@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empresa Teconologia By Lester's Corporation</title>
+    <link rel="stylesheet" href="/static/css/estilo.css">
+</head>
+<body>
+    
+  <img src="/static/img/Captura de pantalla 2025-09-01 020054.png" alt="Imagen de la empresa">
+
+  <div class="seccion1">
+    <div class="div">
+      <form id="login-form">
+        <h2 class="subtitulo">Empresa Tecnologia</h2>
+        <input id="login-email" type="email" placeholder="Email" required>
+        <input id="login-password" type="password" placeholder="Contraseña" minlength="6" required>
+        <button type="submit"><a href="/templates/interseccion.html">Iniciar Sesion</a></button>
+        <a href="recuperarContra.html">¿Olvidaste tu contraseña?</a>
+        <p>¿No tienes una cuenta? <a href="registro.html">Regístrate</a></p>
+        <div id="message" style="color: red; margin-top: 10px;"></div>
+      </form>
+    </div>
+  </div>
+        
+
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
+      authDomain: "empresa-tecnologia.firebaseapp.com",
+      projectId: "empresa-tecnologia",
+      storageBucket: "empresa-tecnologia.appspot.com",  // corregí esto, era .firebasestorage.app, debe ser .app
+      messagingSenderId: "317305921158",
+      appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
+      measurementId: "G-3P63NE5HQF"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    const messageDiv = document.getElementById('message');
+
+    // Login
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Captura con id (agrega estos ids en tus inputs)
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      messageDiv.textContent = '';
+      messageDiv.style.color = 'black';
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        messageDiv.style.color = 'green';
+        messageDiv.textContent = `Bienvenido ${userCredential.user.email}`;
+      } catch (error) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = `Error en inicio de sesión: ${error.message}`;
+      }
+    });
+
+  </script>
+
+
+</body>
+</html>
