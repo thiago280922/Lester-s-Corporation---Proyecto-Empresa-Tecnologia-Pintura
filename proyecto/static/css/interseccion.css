@@ -1,0 +1,44 @@
+body{
+    background-color: #6e56be;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    background-color: #574fa3;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.posteo{
+    background-color: #dcb3e2;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 7px;
+    margin: 15px;
+}
+
+.primer-seccion{
+    display: flex;
+    flex-direction: row;
+}
+
+.agregar, .contactos, button{
+    width: 50%;
+    background-color: #dcb3e2;
+    border: 1px solid rgb(255, 255, 255);
+    margin: 10px;
+    border-radius: 4px;
+    height: 100px;
+}
+
+a{
+    text-decoration: none;
+}
