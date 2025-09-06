@@ -31,6 +31,23 @@ h1 {
     font-size: 100px;
 }
 
+button>a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button>a {
+    background-color: #0056b3;
+}
+
 .subtitulo{
     font-size: 40px;
 }
@@ -85,17 +102,57 @@ input, button, p {
     align-items: center;
 }
 
+@media (max-width: 1600px) and (min-width: 1200px){
+    body { 
+        font-size: 14px; 
+        height: 100vh;
+    }
 
-@media (min-width: 768px) {
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.5rem; }
+    .seccion1, .login-form {
+        flex-direction: column;
+    }
+
+    .div {
+        margin-top: 50px;
+
+    }
+
+}
+
+@media (max-width: 1200px) and (min-width: 450px) {
+    body{ height: 100vh; }
+    h1 { font-size: 10px; }
+    h2 { font-size: 10px; }
+    .subtitulo{ font-size: 23px;}
+    a,p{font-size: 15px;}
+    input, button {
+        width: 70%;
+        height: 25px;
+    }
     .card { max-width: 250px; }
-    .div {margin-top: 250px;}
+    .div {height: 250px; width: 250px; margin: 20px;}
+}
+
+@media (max-width: 1200px) and (min-width: 450px) {
+    body{ height: 100vh; }
+    h1 { font-size: 10px; }
+    h2 { font-size: 10px; }
+    .subtitulo{ font-size: 23px;}
+    a,p{font-size: 15px;}
+    input, button {
+        width: 70%;
+        height: 25px;
+    }
+    .card { max-width: 250px; }
+    .div {height: 250px; width: 250px; margin: 20px;}
 }
 
 
 @media (max-width: 400px) {
-    body { font-size: 14px; }
+    body { 
+        font-size: 14px; 
+        height: 100vh;
+    }
 
     .seccion1, .login-form {
         flex-direction: column;
@@ -106,7 +163,7 @@ input, button, p {
     }
 
     input, button {
-        width: 60px;
+        width: 60%;
     }
 
     h1 { font-size: 1.8rem; }
