@@ -1,0 +1,172 @@
+:root{
+    --primary: #442A9D;
+    --secondary: #ddb0e4;
+    --text-dark: #222;
+    --text-light: #fff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background: #fff;
+    color: var(--text-dark);
+    line-height: 1.4;
+    padding: 0;
+}
+
+.top-bar{
+    background: var(--primary);
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+}
+
+.title{
+    font-size: 1.5rem;
+}
+
+.github-link{
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.github-link:hover{
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.decor-lines{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 25px;
+}
+
+.line{
+    height: 6px;
+    border-radius: 3px;
+    background: var(--secondary);
+    flex: 1;
+    margin: 0.5px;
+}
+
+.comments-section{
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    position: relative;
+}
+
+.comment-box{
+    border: 3px solid var(--secondary);
+    border-radius: 40px;
+    padding: 20px;
+    font-size: 1rem;
+    background: #fff;
+    min-height: 150px;
+}
+
+.comment-toggle {
+    grid-column: span 3;
+    text-align: center;
+    margin-top: 30px;
+}
+
+#toggle-comment{
+    display: none;
+}
+
+.comment-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--text-light);
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    border: none;
+    gap: 10px;
+}
+
+.comment-btn:hover{
+    background: #2f1f6d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.comment-form-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    margin-top: 0;
+}
+
+#toggle-comment:checked ~ .comment-form-container {
+    max-height: 300px;
+    margin-top: 20px;
+}
+
+.comment-form-box {
+    background: var(--secondary);
+    border-radius: 25px;
+    padding: 25px;
+    border: 3px solid var(--primary);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+#toggle-comment:checked ~ .comment-form-container .comment-form-box {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.comment-form-box textarea{
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid var(--primary);
+    border-radius: 15px;
+    resize: none;
+    margin-bottom: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.comment-form-box button{
+    background: var(--primary);
+    color: var(--text-light);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.comment-form-box button:hover{
+    background: #2f1f6d;
+    transform: translateY(-2px);
+}
+
+.comment-btn::after {
+    content: "↓";
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+#toggle-comment:checked ~ .comment-btn::after {
+    content: "↑";
+    transform: rotate(180deg);
+}
+
