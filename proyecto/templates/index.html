@@ -1,77 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empresa Teconologia By Lester's Corporation</title>
-    <link rel="stylesheet" href="/static/css/estilo.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/css/estilo.css">
+  <link rel="shortcut icon" href="/static/img/logo.ico" type="image/x-icon">
+
+  <title>Empresa Tecnologia - Login</title>
 </head>
 <body>
-    
   <img src="/static/img/Captura de pantalla 2025-09-01 020054.png" alt="Imagen de la empresa">
 
   <div class="seccion1">
     <div class="div">
       <form id="login-form">
         <h2 class="subtitulo">Empresa Tecnologia</h2>
-        <input id="login-email" type="email" placeholder="Email" required>
-        <input id="login-password" type="password" placeholder="Contraseña" minlength="6" required>
-        <button type="submit"><a href="/templates/interseccion.html">Iniciar Sesion</a></button>
-        <a href="recuperarContra.html">¿Olvidaste tu contraseña?</a>
-        <p>¿No tienes una cuenta? <a href="registro.html">Regístrate</a></p>
-        <div id="message" style="color: red; margin-top: 10px;"></div>
+
+        <div class="email-input">
+          <input id="login-email" type="email" required>
+          <label>Email</label>
+        </div>
+
+        <div class="password-input">
+          <input id="login-password" type="password" minlength="6" required>
+          <label>Contraseña</label>
+        </div>
+
+        <button id="login-btn" type="submit">Iniciar Sesión</button>
+
+        <a href="/templates/recuperarContra.html">¿Olvidaste tu contraseña?</a>
+        <p>¿No tienes una cuenta? <a href="/templates/registro.html">Regístrate</a></p>
+
+        <div id="message" style="color: green; margin-top: 10px; font-weight: bold;"></div>
       </form>
     </div>
   </div>
-        
 
   <script type="module">
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
       authDomain: "empresa-tecnologia.firebaseapp.com",
       projectId: "empresa-tecnologia",
-      storageBucket: "empresa-tecnologia.appspot.com",  // corregí esto, era .firebasestorage.app, debe ser .app
+      storageBucket: "empresa-tecnologia.appspot.com",
       messagingSenderId: "317305921158",
       appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
       measurementId: "G-3P63NE5HQF"
     };
 
-    // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const auth = getAuth(app);
 
-    const messageDiv = document.getElementById('message');
+    const form = document.getElementById("login-form");
+    const message = document.getElementById("message");
 
-    // Login
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Captura con id (agrega estos ids en tus inputs)
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
 
-      messageDiv.textContent = '';
-      messageDiv.style.color = 'black';
+      message.textContent = "";
+      message.style.color = "black";
+
+      if (!email || password.length < 6) {
+        message.style.color = "red";
+        message.textContent = "Por favor ingresa un email y contraseña válidos.";
+        return;
+      }
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        messageDiv.style.color = 'green';
-        messageDiv.textContent = `Bienvenido ${userCredential.user.email}`;
+
+        // Guardar email en localStorage
+        localStorage.setItem("usuarioEmail", email);
+
+        message.style.color = "green";
+        message.textContent = `Bienvenido ${userCredential.user.email}`;
+
+        setTimeout(() => {
+          // Redirigir según usuario
+          if(email === "brunella.figalloet32@gmail.com") {
+            window.location.href = "/templates/admin.html";
+          } else {
+            window.location.href = "/templates/interseccion.html";
+          }
+        }, 2000);
+
       } catch (error) {
-        messageDiv.style.color = 'red';
-        messageDiv.textContent = `Error en inicio de sesión: ${error.message}`;
+        message.style.color = "red";
+        message.textContent = mensajeErrorAmigable(error.code);
       }
     });
 
+    function mensajeErrorAmigable(code) {
+      const map = {
+        'auth/invalid-credential': 'Credenciales inválidas. Verifica email y contraseña.',
+        'auth/invalid-email': 'Email inválido.',
+        'auth/user-disabled': 'Usuario deshabilitado.',
+        'auth/user-not-found': 'Usuario no encontrado.',
+        'auth/wrong-password': 'Contraseña incorrecta.',
+        'auth/email-already-in-use': 'Ese email ya está registrado.',
+        'auth/weak-password': 'La contraseña es muy débil (mínimo 6 caracteres).'
+      };
+      return map[code] || 'Ocurrió un error. Intenta nuevamente.';
+    }
   </script>
-
-
 </body>
 </html>
