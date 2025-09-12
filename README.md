@@ -25,7 +25,7 @@
 <p align = center>
 <img width="912" height="512" alt="image" src="https://github.com/user-attachments/assets/dcc8ce01-4b61-4fd5-b98c-8778d8090dc3" />
 </p>
-<p> Proyecto desarrollado por Lester's Corporation para la empresa "Tecnologia Pintura". Este proyecto se realiza con el objetivo de que no se despidan empleados valiosos, sin antes reconocer sus talentos y logros, se va a manejar mediante un sistema de subida de repositorios creados en github que muestren sus proyectos individuales, donde los demas empleados puedan interactuar con los posteos, comentando y calificando. También se va a manejar un chat general donde puedan comunicarse entre todos, junto a un apartado donde los empleados podrán comenzar chats individuales entre ellos </p>
+<p> Proyecto desarrollado por Lester's Corporation para la empresa "Tecnologia Pintura". Este proyecto se realiza con el objetivo de que no se despidan empleados valiosos, sin antes reconocer sus talentos y logros, se va a manejar mediante un sistema de subida de repositorios creados en github que muestren sus proyectos individuales, donde los demas empleados puedan interactuar con los posteos, comentando y calificando. También se va a manejar un chat general donde puedan comunicarse entre todos, junto a un apartado donde los empleados podrán comenzar chats individuales entre ellos. </p>
 
 ## Funcionalidades
 
