@@ -80,16 +80,16 @@
         localStorage.setItem("usuarioEmail", email);
 
         message.style.color = "green";
-        message.textContent = `Bienvenido ${userCredential.user.email}`;
+        message.textContent = `Bienvenido/a ${userCredential.user.email}`;
 
         setTimeout(() => {
           // Redirigir según usuario
-          if(email === "brunella.figalloet32@gmail.com") {
+          if(email === "thiagocarp201@gmail.com") {
             window.location.href = "/templates/admin.html";
           } else {
             window.location.href = "/templates/interseccion.html";
           }
-        }, 2000);
+        }, 800);
 
       } catch (error) {
         message.style.color = "red";

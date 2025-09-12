@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="shortcut icon" href="/static/img/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/estilo.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <title>Empresa Tecnologia</title>
+    
+</head>
+<body>
+
+    <img src="/static/img/Captura de pantalla 2025-09-01 020054.png" alt="">
+
+    <div class="seccion1">
+      <div class="div">
+          <form id="login-form">
+              <h2>Empresa Tecnologia</h2>
+
+              <div class="email-input">
+              <input id="register-username" class="input" type="text"/>
+              <label>Usuario <i class="fa-solid fa-user"></i></label>
+              </div>
+
+              <div class="email-input">
+              <input id="register-email" class="input" type="email" required />
+              <label>Email <i class="fa-solid fa-envelope"></i></label>
+              </div>
+              
+              <div class="email-input">
+              <input id="register-password" class="input" type="password" minlength="6" required />
+              <label>Contraseña <i class="fa-solid fa-lock"></i></label>
+              </div>
+
+              <button class="btn" type="submit">Registrarse</button>
+              <p>¿Ya estás registrado? <a href="index.html">Inicia sesión</a></p>
+              <div id="message" class="mensaje-error"></div>
+          </form>
+      </div>
+  </div>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  
+    window.addEventListener('DOMContentLoaded', () => {
+      const firebaseConfig = {
+        apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
+        authDomain: "empresa-tecnologia.firebaseapp.com",
+        projectId: "empresa-tecnologia",
+        storageBucket: "empresa-tecnologia.appspot.com",
+        messagingSenderId: "317305921158",
+        appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
+        measurementId: "G-3P63NE5HQF"
+      };
+  
+      // 🔐 Inicializar Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+  
+      // 🎯 Referencias al formulario y elementos
+      const registerForm = document.getElementById('register-form');
+      const messageDiv = document.getElementById('message');
+  
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+  
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+  
+        messageDiv.textContent = '';
+        messageDiv.style.color = 'black';
+  
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          messageDiv.style.color = 'green';
+          messageDiv.textContent = `Registro exitoso. Bienvenido ${userCredential.user.email}`;
+          registerForm.reset();
+        } catch (error) {
+          messageDiv.style.color = 'red';
+          messageDiv.textContent = `Error en registro: ${error.message}`;
+        }
+      });
+    });
+  </script>
+  
+
+</body>
+</html>

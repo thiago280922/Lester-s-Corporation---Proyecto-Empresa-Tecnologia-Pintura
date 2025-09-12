@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/img/logo.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <title>Administrador</title>
+
+</head>
+<body>
+
+    <h1>Bienvenido Administrador</h1>
+    <h2>Gestiona empleados, roles y chats directos</h2>
+
+    <!-- AGREGAR EMPLEADO -->
+    <form id="form-agregar-empleado">
+        <fieldset>
+            <legend>Agregar empleado</legend>
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="apellido" placeholder="Apellido" required>
+            <input type="number" name="dni" placeholder="DNI" required>
+            <input type="text" name="telefono" placeholder="Teléfono" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="contrasenia" placeholder="Contraseña" required>
+            <input type="number" name="id_rol" placeholder="ID Rol" required>
+            <button type="submit">Agregar empleado</button>
+        </fieldset>
+    </form>
+
+    <!-- ELIMINAR EMPLEADO -->
+    <form id="form-eliminar-empleado">
+        <fieldset>
+            <legend>Eliminar empleado</legend>
+            <input type="number" name="id_usuario" placeholder="ID del empleado" required>
+            <button type="submit">Eliminar empleado</button>
+        </fieldset>
+    </form>
+
+    <!-- CHAT DIRECTO -->
+    <form id="form-chat-directo">
+        <fieldset>
+            <legend>Iniciar chat directo</legend>
+            <input type="number" id="input-id-empleado" placeholder="ID del empleado" required>
+            <button type="button" id="btn-iniciar-chat">Iniciar chat</button>
+        </fieldset>
+    </form>
+
+    <ul id="lista-chats"></ul>
+
+    <script>
+        // Función para generar avatar de iniciales
+        function generarAvatar(texto) {
+            const colorList = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
+            const color = colorList[Math.floor(Math.random() * colorList.length)];
+            const avatar = document.createElement("div");
+            avatar.className = "avatar";
+            avatar.style.backgroundColor = color;
+            avatar.textContent = texto.slice(0,2).toUpperCase();
+            return avatar;
+        }
+
+        // =======================
+        // AGREGAR EMPLEADO
+        // =======================
+        document.getElementById("form-agregar-empleado").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const res = await fetch("/admin/usuario", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert(result.mensaje || result.error);
+        });
+
+        // =======================
+        // ELIMINAR EMPLEADO
+        // =======================
+        document.getElementById("form-eliminar-empleado").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id_usuario = e.target.id_usuario.value;
+            const res = await fetch(`/admin/usuario/${id_usuario}`, {method: "DELETE"});
+            const result = await res.json();
+            alert(result.mensaje || result.error);
+        });
+
+        // =======================
+        // CREAR ROL
+        // =======================
+        document.getElementById("form-crear-rol").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const res = await fetch("/admin/rol", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert(result.mensaje || result.error);
+        });
+
+        // =======================
+        // INICIAR CHAT DIRECTO
+        // =======================
+        document.getElementById("btn-iniciar-chat").addEventListener("click", async () => {
+            const id = document.getElementById("input-id-empleado").value.trim();
+            if(!id) return alert("Ingresa el ID del empleado");
+
+            // Buscar empleado
+            const res = await fetch(`/buscar_empleado?id=${id}`);
+            const data = await res.json();
+            if(data.error) return alert(data.error);
+
+            // Iniciar chat
+            const chatRes = await fetch(`/chat_directo/iniciar/${id}`, {method: "POST"});
+            const chatData = await chatRes.json();
+            alert(chatData.mensaje);
+
+            // Mostrar en lista de chats
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+            const avatar = generarAvatar(data.nombre + "@demo.com");
+            const span = document.createElement("span");
+            span.textContent = `Iniciaste un chat con ${data.nombre} (${data.puesto}) - ID: ${id}`;
+            li.appendChild(avatar);
+            li.appendChild(span);
+            document.getElementById("lista-chats").appendChild(li);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+body { 
+    font-family: Arial, sans-serif; 
+    padding: 20px; 
+    background: #f4f4f9; 
+    
+}
+
+h1, h2 { 
+    text-align: center;
+    color: #333; 
+}
+
+#form-agregar-empleado {
+
+    display: flex;
+    flex-grow: 1;
+
+}
+
+form { 
+    background: white; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+    flex-wrap: wrap;
+    flex-basis: 200;
+}
+
+fieldset { 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    border-radius: 5px; 
+    margin-bottom: 10px; 
+}
+
+legend { 
+    font-weight: bold; 
+}
+
+input{
+    width: 98.8%;
+    margin: 5px 0; 
+    padding: 8px;
+}
+
+select, button { 
+    margin: 5px 0; 
+    padding: 8px; 
+    width: 100%; 
+}
+
+button { 
+    cursor: pointer; 
+    background: #6e56be; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+}
+
+ul { 
+    list-style: none; 
+    padding-left: 0; 
+}
+
+.posteo { 
+    display: flex; 
+    align-items: center; 
+    padding: 5px 0; 
+}
+
+.avatar { 
+    width: 35px; 
+    height: 35px; 
+    border-radius: 50%; 
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center; 
+    color: white; 
+    font-weight: bold; 
+    margin-right: 10px; 
+}
+
+
+#form-agregar-empleado{
+    display: flex;
+    display: flex;
+    flex-grow: 1;
+    
+}
+
+.cosas{
+    flex-basis: 200;
+    flex-wrap: wrap;
+}

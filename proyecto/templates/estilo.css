@@ -1,0 +1,201 @@
+input:-webkit-autofill {
+    box-shadow: 0 0 0 30px transparent inset !important;
+    -webkit-text-fill-color: black !important;
+    background: transparent !important;
+}
+  
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: url('/static/img/Captura\ de\ pantalla\ 2025-09-01\ 020054.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+a{
+    font-size: 200%;
+    color: rgb(25, 25, 231);
+}
+
+p, .registro{
+    font-size: 150%;
+    margin-top: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 100px;
+}
+
+button>a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button>a {
+    background-color: #0056b3;
+}
+
+.subtitulo{
+    font-size: 40px;
+}
+
+input{
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+    background: none;
+    padding: 10px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.email-input, .password-input{
+    position: relative;
+    margin: 20px 0;
+}
+
+.email-input label, 
+.password-input label {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #888;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+input:focus + label {
+    top: -10px;
+    font-size: 12px;
+    color: #333;
+}
+
+
+@keyframes mover {
+    from{
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+
+}
+
+button, p {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.seccion1 {
+    margin: 0 auto;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.div {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+
+    min-width: 400px; 
+    min-height: 400px;
+
+    box-shadow: 0 4px 30px rgba(42, 77, 155, 0.651);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+
+}
+
+#register-form, #login-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form input, 
+.register-form button, #login-form {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.register-form, #login-form a {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+#register-form, #login-form a{
+    font-size: 1.8rem;
+    text-decoration: none;
+    color: rgb(42, 77, 155);
+    margin-top: 12px;
+}
+
+#register-form, #login-form p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#register-form, #login-form a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+    .register-form, #login-form {
+        max-width: 350px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    .register-form, #login-form {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .register-form, #login-form a {
+        font-size: 0.8rem;
+    }
+}
