@@ -25,7 +25,7 @@
 <p align = center>
 <img width="912" height="512" alt="image" src="https://github.com/user-attachments/assets/dcc8ce01-4b61-4fd5-b98c-8778d8090dc3" />
 </p>
----
+<p> Este proyecto se realiza con el objetivo de que una empresa de pintura no despida empleados valiosos, sin antes reconocer sus talentos y logros, esto mediante un sistema de subida de repositorios creados en github, donde los demas empleados puedan interactuar con los posteos, comentando y calificando. También se va a manejar un chat general (va a haber un moderador que se ocupe de revisar que se cumplan las normas y haya respeto entre los empleados, va a tener la opcion de borrar cualquier mensaje del chat general) donde puedan comunicarse entre todos, junto a un apartado donde los empleados podrán comenzar chats individuales entre ellos </p>
 
 ## Funcionalidades
 
