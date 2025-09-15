@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 1rem;
+  }
+  
+  section {
+    margin-bottom: 3rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  textarea, input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #4A90E2;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .mensajes, .posteo {
+    margin-top: 1rem;
+  }
+  
+  .mensaje {
+    background-color: #f1f1f1;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .mensaje strong {
+    color: #333;
+  }
+  
+  .mensaje .fecha {
+    float: right;
+    font-size: 0.8rem;
+    color: #888;
+  }
+  
+  .posteo {
+    border-top: 1px solid #ccc;
+    padding-top: 1rem;
+  }
+  
+  .posteo h3 {
+    margin: 0.2rem 0;
+  }
+  
+  .posteo small {
+    color: #666;
+    font-size: 0.85rem;
+  }
+  

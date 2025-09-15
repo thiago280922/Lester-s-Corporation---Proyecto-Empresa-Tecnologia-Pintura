@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/interseccion.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Bienvenido al panel general</h1>
+
+    <section class="primer-seccion">
+        <button type="submit"><a href="{{ url_for('posteos') }}"><h2>POSTEOS</h2></a></button>
+
+        <button type="submit"><a href="{{ url_for('chat') }}"><h2>CHAT</h2></a></button>
+
+    </section>
+    
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/posteo.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+
+  <title>Posteo - informacion</title>
+  
+</head>
+<body>
+  
+  <header class="top-bar">
+
+    <div class="top-left">
+      <h1 class="title">Título</h1>
+    </div>
+
+    <div class="top-right">
+      <a  target="_blank" class="github-link">Link GitHub</a>
+    </div>
+
+  </header>
+
+  <main class="comments-section">
+    <h2>En esta seccion podes comentar tu opinion del posteo</h2>
+    <section class="info">
+        <div class="comment-box">Comentario 1</div>
+        <div class="comment-box">Comentario 2</div>
+        <div class="comment-box">Comentario 3</div>
+      
+      <section class="comment-toggle">
+        <input type="checkbox" id="toggle-comment">
+        <label for="toggle-comment" class="comment-btn">💬Comentar</label>
+        <div class="comment-form-container">
+            <div class="comment-for-box">
+                <textarea placeholder="Escribe aqui tu comentario..."></textarea>
+                <button type="button">Enviar comentario</button>
+            </div>
+          </div>
+        </section>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const data = JSON.parse(localStorage.getItem("posteoDetalle")) || {};
+        const titleEl = document.querySelector(".title");
+        const linkEl = document.querySelector(".github-link");
+    
+        titleEl.textContent = data.contenido || "Posteo sin título";
+        if (data.link) {
+            linkEl.href = data.link;
+            linkEl.textContent = "Ver enlace";
+        } else {
+            linkEl.style.display = "none";
+        }
+    });
+  </script>
+    
+
+</body>
+</html>

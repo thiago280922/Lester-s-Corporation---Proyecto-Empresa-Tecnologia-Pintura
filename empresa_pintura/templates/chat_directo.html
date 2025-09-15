@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+    
+    <title>Chat Directo</title>
+    
+</head>
+<body>
+    <h1>Chat directo</h1>
+    <div id="chat-mensajes"></div>
+
+    <input type="text" id="input-mensaje" placeholder="Escribe tu mensaje...">
+    <button id="btn-enviar">Enviar</button>
+
+    <script>
+        const remitenteId = { remitente_id };
+        const destinatarioId = { destinatario_id };
+        const chatMensajes = document.getElementById("chat-mensajes");
+        const inputMensaje = document.getElementById("input-mensaje");
+        const btnEnviar = document.getElementById("btn-enviar");
+
+        // Función para cargar mensajes
+        async function cargarMensajes() {
+            const res = await fetch(`/empleado/mensajes_directos/${remitenteId}/${destinatarioId}`);
+            const data = await res.json();
+            chatMensajes.innerHTML = "";
+            data.mensajes.forEach(m => {
+                const div = document.createElement("div");
+                div.textContent = `${m.nombre}: ${m.contenido}`;
+                chatMensajes.appendChild(div);
+            });
+        }
+
+        // Enviar mensaje
+        btnEnviar.addEventListener("click", async () => {
+            const contenido = inputMensaje.value.trim();
+            if(!contenido) return;
+
+            await fetch(`/empleado/mensaje_directo`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    remitente_id: remitenteId,
+                    destinatario_id: destinatarioId,
+                    contenido
+                })
+            });
+            inputMensaje.value = "";
+            cargarMensajes();
+        });
+
+        // Cargar mensajes al inicio y cada 2s
+        cargarMensajes();
+        setInterval(cargarMensajes, 2000);
+    </script>
+</body>
+</html>
