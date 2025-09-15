@@ -63,102 +63,118 @@
     </div>
 </div>
 
+
+
 <script>
-        (function() {
-        // Botones e inputs
-        const btnPosteos = document.getElementById("btn-posteos");
-        const btnBuscar = document.getElementById("btn-buscar");
-        const btnEnviar = document.getElementById("btn-enviar");
-        const inputMensaje = document.getElementById("input-mensaje");
-        const chatMensajes = document.getElementById("chat-mensajes");
+(function() {
+    const btnPosteos = document.getElementById("btn-posteos");
+    const btnBuscar = document.getElementById("btn-buscar");
+    const btnEnviar = document.getElementById("btn-enviar");
+    const inputMensaje = document.getElementById("input-mensaje");
+    const chatMensajes = document.getElementById("chat-mensajes");
 
-        // Modal
-        const modal = document.getElementById("modal-buscar");
-        const cerrarModal = document.getElementById("cerrar-modal");
+    const modal = document.getElementById("modal-buscar");
+    const cerrarModal = document.getElementById("cerrar-modal");
 
-        // Función para generar avatar
-        function generarAvatar(email) {
-            const letras = email.substring(0, 3).toUpperCase();
-            const colores = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
-            const color = colores[Math.floor(Math.random() * colores.length)];
+    // Recuperar historial
+    let mensajes = JSON.parse(localStorage.getItem("mensajesChat")) || [];
 
-            const avatar = document.createElement("div");
-            avatar.classList.add("avatar");
-            avatar.style.backgroundColor = color;
-            avatar.textContent = letras;
-            return avatar;
+    function renderMensajes() {
+        chatMensajes.innerHTML = "";
+
+        if (mensajes.length === 0) {
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+            li.textContent = "Bienvenido al chat 🎉";
+            chatMensajes.appendChild(li);
+            return;
         }
 
-        // Redirigir a posteos
-        if(btnPosteos) btnPosteos.addEventListener("click", () => window.location.href="{{ url_for('posteos') }}");
-
-        // Abrir/cerrar modal
-        if(btnBuscar) btnBuscar.addEventListener("click", () => modal.style.display = "block");
-        if(cerrarModal) cerrarModal.addEventListener("click", () => modal.style.display = "none");
-
-        // Enviar mensaje con avatar
-        function enviarMensaje() {
-            const mensaje = inputMensaje.value.trim();
-            if (!mensaje) return;
-
-            const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
-
+        mensajes.forEach(msg => {
             const li = document.createElement("li");
             li.classList.add("posteo");
             li.style.display = "flex";
             li.style.alignItems = "center";
 
-            const avatar = generarAvatar(email);
+            const avatar = generarAvatar(msg.email);
             const span = document.createElement("span");
-            span.textContent = mensaje;
+            span.textContent = msg.texto;
 
             li.appendChild(avatar);
             li.appendChild(span);
             chatMensajes.appendChild(li);
+        });
+    }
+    renderMensajes();
 
-            inputMensaje.value = "";
+    function generarAvatar(email) {
+        const letras = email.substring(0, 3).toUpperCase();
+        const colores = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
+        const color = colores[Math.floor(Math.random() * colores.length)];
+
+        const avatar = document.createElement("div");
+        avatar.classList.add("avatar");
+        avatar.style.backgroundColor = color;
+        avatar.textContent = letras;
+        return avatar;
+    }
+
+    if(btnPosteos) btnPosteos.addEventListener("click", () => window.location.href="{{ url_for('posteos') }}");
+    if(btnBuscar) btnBuscar.addEventListener("click", () => modal.style.display = "block");
+    if(cerrarModal) cerrarModal.addEventListener("click", () => modal.style.display = "none");
+
+    function enviarMensaje() {
+        const mensaje = inputMensaje.value.trim();
+        if (!mensaje) return;
+
+        const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
+
+        // Guardar en array + localStorage
+        mensajes.push({ email, texto: mensaje });
+        localStorage.setItem("mensajesChat", JSON.stringify(mensajes));
+
+        renderMensajes();
+        inputMensaje.value = "";
+    }
+
+    if(btnEnviar) btnEnviar.addEventListener("click", enviarMensaje);
+    if(inputMensaje) inputMensaje.addEventListener("keypress", e => { if (e.key === "Enter") enviarMensaje(); });
+
+    // Buscar empleado
+    document.getElementById("btn-buscar-empleado").addEventListener("click", async () => {
+        const id = document.getElementById("input-buscar-empleado").value.trim();
+        if(!id) return;
+
+        const res = await fetch(`/buscar_empleado?id=${id}`);
+        const data = await res.json();
+
+        const resultado = document.getElementById("resultado-busqueda");
+        if(data.error) {
+            resultado.textContent = data.error;
+            resultado.style.color = "red";
+        } else {
+            resultado.textContent = `${data.nombre} - ${data.puesto}`;
+            resultado.style.color = "green";
         }
+    });
 
-        if(btnEnviar) btnEnviar.addEventListener("click", enviarMensaje);
-        if(inputMensaje) inputMensaje.addEventListener("keypress", (e) => { if (e.key === "Enter") enviarMensaje(); });
+    document.getElementById("btn-iniciar-chat").addEventListener("click", async () => {
+        const id = document.getElementById("input-buscar-empleado").value.trim();
+        if(!id) return alert("Ingresa el ID del empleado");
 
-        // Buscar empleado
-        document.getElementById("btn-buscar-empleado").addEventListener("click", async () => {
-            const id = document.getElementById("input-buscar-empleado").value.trim();
-            if(!id) return;
+        const res = await fetch(`/buscar_empleado?id=${id}`);
+        const data = await res.json();
+        if(data.error) return alert(data.error);
 
-            const res = await fetch(`/buscar_empleado?id=${id}`);
-            const data = await res.json();
+        const usuarioId = localStorage.getItem("usuarioId");
+        if(!usuarioId) return alert("No se pudo obtener tu ID de usuario");
 
-            const resultado = document.getElementById("resultado-busqueda");
-            if(data.error) {
-                resultado.textContent = data.error;
-                resultado.style.color = "red";
-            } else {
-                resultado.textContent = `${data.nombre} - ${data.puesto}`;
-                resultado.style.color = "green";
-            }
-        });
+        window.location.href = `/chat_directo/${usuarioId}/${id}`;
+    });
 
-        // Iniciar chat
-        document.getElementById("btn-iniciar-chat").addEventListener("click", async () => {
-            const id = document.getElementById("input-buscar-empleado").value.trim();
-            if(!id) return alert("Ingresa el ID del empleado");
-
-            const res = await fetch(`/buscar_empleado?id=${id}`);
-            const data = await res.json();
-            if(data.error) return alert(data.error);
-
-            const usuarioId = localStorage.getItem("usuarioId");
-            if(!usuarioId) return alert("No se pudo obtener tu ID de usuario");
-
-            // Redirigir a chat directo
-            window.location.href = `/chat_directo/${usuarioId}/${id}`;
-        });
-
-    })();
+})();
 </script>
-    
+
 
 </body>
 </html>

@@ -1,5 +1,56 @@
-from flask import Blueprint, request, session, jsonify
-from database.bd import get_db
+
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
+from database.bd import sqlite3
+
+chat_bp = Blueprint("chat", __name__)
+
+def get_db():
+    conn = sqlite3.connect("bdSistema.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@chat_bp.route("/chat")
+def chat():
+    if "empleado_id" not in session:
+        return redirect(url_for("login.login"))
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT c.mensaje, c.fecha, e.nombre, e.apellido
+        FROM chat_general c
+        JOIN empleado e ON c.empleado_id = e.id
+        ORDER BY c.fecha ASC
+    """)
+    mensajes = cursor.fetchall()
+    conn.close()
+
+    return render_template("chat.html", mensajes=mensajes)
+
+
+@chat_bp.route("/enviar", methods=["POST"])
+def enviar():
+    if "empleado_id" not in session:
+        return jsonify({"error": "No logueado"}), 403
+
+    data = request.json
+    texto = data.get("mensaje", "").strip()
+
+    if not texto:
+        return jsonify({"error": "Mensaje vacío"}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO chat_general (empleado_id, mensaje, fecha) VALUES (?, ?, datetime('now'))",
+        (session["empleado_id"], texto)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"ok": True})
+
+
 
 chat = Blueprint("chat", __name__)
 
@@ -80,3 +131,54 @@ def eliminar_mensaje(id_mensaje):
     conn.commit()
     conn.close()
     return jsonify({"mensaje": "Mensaje eliminado correctamente"})
+
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
+from database.bd import sqlite3
+
+chat_bp = Blueprint("chat", __name__)
+
+def get_db():
+    conn = sqlite3.connect("bdSistema.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@chat_bp.route("/chat")
+def chat():
+    if "empleado_id" not in session:
+        return redirect(url_for("login.login"))
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT c.mensaje, c.fecha, e.nombre, e.apellido
+        FROM chat_general c
+        JOIN empleado e ON c.empleado_id = e.id
+        ORDER BY c.fecha ASC
+    """)
+    mensajes = cursor.fetchall()
+    conn.close()
+
+    return render_template("chat.html", mensajes=mensajes)
+
+
+@chat_bp.route("/enviar", methods=["POST"])
+def enviar():
+    if "empleado_id" not in session:
+        return jsonify({"error": "No logueado"}), 403
+
+    data = request.json
+    texto = data.get("mensaje", "").strip()
+
+    if not texto:
+        return jsonify({"error": "Mensaje vacío"}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO chat_general (empleado_id, mensaje, fecha) VALUES (?, ?, datetime('now'))",
+        (session["empleado_id"], texto)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"ok": True})

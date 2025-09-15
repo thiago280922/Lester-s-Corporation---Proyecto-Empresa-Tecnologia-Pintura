@@ -6,61 +6,194 @@
   
   <link rel="stylesheet" href="{{ url_for('static', filename='css/posteo.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
-  <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 
-  <title>Posteo - informacion</title>
-  
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>Posteo - información</title>
 </head>
 <body>
-  
-  <header class="top-bar">
 
+  <header class="top-bar">
     <div class="top-left">
       <h1 class="title">Título</h1>
     </div>
-
     <div class="top-right">
-      <a  target="_blank" class="github-link">Link GitHub</a>
+      <a target="_blank" class="github-link">Link GitHub</a>
     </div>
-
   </header>
 
-  <main class="comments-section">
-    <h2>En esta seccion podes comentar tu opinion del posteo</h2>
-    <section class="info">
-        <div class="comment-box">Comentario 1</div>
-        <div class="comment-box">Comentario 2</div>
-        <div class="comment-box">Comentario 3</div>
-      
-      <section class="comment-toggle">
-        <input type="checkbox" id="toggle-comment">
-        <label for="toggle-comment" class="comment-btn">💬Comentar</label>
-        <div class="comment-form-container">
-            <div class="comment-for-box">
-                <textarea placeholder="Escribe aqui tu comentario..."></textarea>
-                <button type="button">Enviar comentario</button>
-            </div>
-          </div>
-        </section>
-    </section>
-  </main>
+  <!-- Comentarios -->
+  <section class="general" id="chat-section">
+    <ul class="chat-contenedor" id="chat-mensajes">
+      <li class="posteo">Bienvenido a los comentarios 🎉</li>
+    </ul>
+    <div class="formulario-posteo">
+      <input type="text" id="input-mensaje" placeholder="Escribe un comentario..." />
+      <button id="btn-enviar"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const data = JSON.parse(localStorage.getItem("posteoDetalle")) || {};
-        const titleEl = document.querySelector(".title");
-        const linkEl = document.querySelector(".github-link");
-    
-        titleEl.textContent = data.contenido || "Posteo sin título";
-        if (data.link) {
-            linkEl.href = data.link;
-            linkEl.textContent = "Ver enlace";
-        } else {
-            linkEl.style.display = "none";
-        }
+  <!-- Calificación -->
+  <section class="calificacion" id="rating-section">
+    <h3>Califica este posteo ⭐</h3>
+    <div class="estrellas">
+      <i class="fa fa-star fa-regular" data-value="5"></i>
+      <i class="fa fa-star fa-regular" data-value="4"></i>
+      <i class="fa fa-star fa-regular" data-value="3"></i>
+      <i class="fa fa-star fa-regular" data-value="2"></i>
+      <i class="fa fa-star fa-regular" data-value="1"></i>
+    </div>
+    <p id="resultado-rating">Promedio actual: -</p>
+    <ul id="lista-rating"></ul>
+  </section>
+
+<script>
+(function () {
+  const btnEnviar = document.getElementById("btn-enviar");
+  const inputMensaje = document.getElementById("input-mensaje");
+  const chatMensajes = document.getElementById("chat-mensajes");
+  const estrellas = document.querySelectorAll(".estrellas i");
+  const resultadoRating = document.getElementById("resultado-rating");
+  const listaRating = document.getElementById("lista-rating");
+
+  // Obtener información del posteo
+  const data = JSON.parse(localStorage.getItem("posteoDetalle")) || {};
+  const posteoKey = data.link || "default";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const titleEl = document.querySelector(".title");
+    const linkEl = document.querySelector(".github-link");
+
+    titleEl.textContent = data.contenido || "Posteo sin título";
+    if (data.link) {
+      linkEl.href = data.link;
+      linkEl.textContent = "Ver enlace";
+    } else {
+      linkEl.style.display = "none";
+    }
+
+    renderComentarios();
+    renderCalificaciones();
+  });
+
+  function generarAvatar(email) {
+    const letras = email.substring(0, 3).toUpperCase();
+    const colores = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8", "#6A5ACD"];
+    const color = colores[Math.floor(Math.random() * colores.length)];
+
+    const avatar = document.createElement("div");
+    avatar.classList.add("avatar");
+    avatar.style.backgroundColor = color;
+    avatar.textContent = letras;
+    return avatar;
+  }
+
+  // ===============================
+  // COMENTARIOS
+  // ===============================
+
+  let comentarios = JSON.parse(localStorage.getItem("comentarios_" + posteoKey)) || [];
+
+  function renderComentarios() {
+    chatMensajes.innerHTML = "";
+
+    if (comentarios.length === 0) {
+      const li = document.createElement("li");
+      li.classList.add("posteo");
+      li.textContent = "Bienvenido a los comentarios 🎉";
+      chatMensajes.appendChild(li);
+      return;
+    }
+
+    comentarios.forEach(com => {
+      const li = document.createElement("li");
+      li.classList.add("posteo");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+
+      const avatar = generarAvatar(com.email);
+      const span = document.createElement("span");
+      span.textContent = com.texto;
+
+      li.appendChild(avatar);
+      li.appendChild(span);
+      chatMensajes.appendChild(li);
     });
-  </script>
-    
+  }
+
+  function enviarMensaje() {
+    const mensaje = inputMensaje.value.trim();
+    if (!mensaje) return;
+
+    const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
+
+    comentarios.push({ email, texto: mensaje });
+    localStorage.setItem("comentarios_" + posteoKey, JSON.stringify(comentarios));
+
+    renderComentarios();
+    inputMensaje.value = "";
+  }
+
+  if (btnEnviar) btnEnviar.addEventListener("click", enviarMensaje);
+  if (inputMensaje) {
+    inputMensaje.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") enviarMensaje();
+    });
+  }
+
+  // ===============================
+  // CALIFICACIONES
+  // ===============================
+
+  let calificaciones = JSON.parse(localStorage.getItem("calificaciones_" + posteoKey)) || [];
+
+  function renderCalificaciones() {
+    listaRating.innerHTML = "";
+
+    if (calificaciones.length === 0) {
+      resultadoRating.textContent = "Promedio actual: -";
+      estrellas.forEach(star => {
+        star.classList.remove("fa-solid");
+        star.classList.add("fa-regular");
+      });
+      return;
+    }
+
+    const suma = calificaciones.reduce((acc, val) => acc + val, 0);
+    const promedio = (suma / calificaciones.length).toFixed(1);
+    resultadoRating.textContent = `Promedio actual: ${promedio} ⭐`;
+
+    calificaciones.forEach((valor, idx) => {
+      const li = document.createElement("li");
+      li.textContent = `Usuario ${idx + 1}: ${valor} estrellas`;
+      listaRating.appendChild(li);
+    });
+
+    estrellas.forEach(star => {
+      const valor = parseInt(star.getAttribute("data-value"));
+      if (valor <= Math.round(promedio)) {
+        star.classList.add("fa-solid");
+        star.classList.remove("fa-regular");
+      } else {
+        star.classList.add("fa-regular");
+        star.classList.remove("fa-solid");
+      }
+    });
+  }
+
+  estrellas.forEach(star => {
+    star.addEventListener("click", () => {
+      const valor = parseInt(star.getAttribute("data-value"));
+      calificaciones.push(valor);
+      localStorage.setItem("calificaciones_" + posteoKey, JSON.stringify(calificaciones));
+      renderCalificaciones();
+    });
+  });
+
+})();
+</script>
 
 </body>
 </html>

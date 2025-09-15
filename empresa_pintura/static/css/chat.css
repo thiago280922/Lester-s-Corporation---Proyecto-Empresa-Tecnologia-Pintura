@@ -205,3 +205,42 @@ section {
     font-size: 14px;
     margin-top: 5px;
 }
+
+
+/* Sección calificación */
+.calificacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50vh;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.calificacion h3 {
+  margin-bottom: 10px;
+}
+
+
+.estrellas {
+  display: inline-flex;
+  flex-direction: row-reverse; /* Invertir dirección */
+}
+
+
+.estrellas i {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+/* hover correcto → ilumina actual y todas las anteriores */
+.estrellas i:hover,
+.estrellas i:hover ~ i {
+  color: gold;
+}
+
+
+

@@ -10,7 +10,7 @@ body{
 }
 
 .top-bar, .top-left, .top-right{
-    color: #3D6197;
+    color: black;
 }
 
 h2{
@@ -36,7 +36,7 @@ main{
 }
 
 .top-bar{
-    background: #a6b7db;
+    background: #B1B1A7;
     display: flex;
     justify-content: space-between;
     align-items: center;

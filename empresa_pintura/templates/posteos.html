@@ -18,19 +18,13 @@
     <h1>POSTEOS</h1>
 
     <section class="general">
-        <ul id="lista-posteos">
-            <li class="posteo">Bienvenido a los posteos 🎉</li>
-            <li class="posteo"><a href="https://github.com/topics/css">https://github.com/topics/css</a></li>
-            <li class="posteo"><a href="https://github.com/freeCodeCamp">https://github.com/freeCodeCamp</a></li>
-            <li class="posteo"><a href="https://github.com/twbs/bootstrap">https://github.com/twbs/bootstrap</a></li>
-        </ul>
+        <ul id="lista-posteos"></ul>
         
         <div class="formulario-posteo">
             <input type="text" id="input-posteo" placeholder="Escribe un link de GitHub..." />
             <button id="btn-agregar">➤</button>
             <div id="error-posteo" class="error"></div> <!-- 🟥 Mensaje de error -->
         </div>
-        
     </section>
 
     <script>
@@ -38,7 +32,10 @@
             const input = document.getElementById("input-posteo");
             const boton = document.getElementById("btn-agregar");
             const lista = document.getElementById("lista-posteos");
-        
+
+            // Recuperar posteos de localStorage
+            let posteos = JSON.parse(localStorage.getItem("posteos")) || [];
+
             function generarAvatar(email) {
                 const letras = email.substring(0, 3).toUpperCase();
                 const colores = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
@@ -51,29 +48,56 @@
         
                 return avatar;
             }
-        
-            // === Nuevo: abrir detalle del posteo ===
+
+            function renderPosteos() {
+                lista.innerHTML = "";
+
+                if (posteos.length === 0) {
+                    const li = document.createElement("li");
+                    li.classList.add("posteo");
+                    li.textContent = "Bienvenido a los posteos 🎉";
+                    lista.appendChild(li);
+                    return;
+                }
+
+                posteos.forEach(p => {
+                    const li = document.createElement("li");
+                    li.classList.add("posteo");
+                    li.style.display = "flex";
+                    li.style.alignItems = "center";
+
+                    const avatar = generarAvatar(p.email);
+
+                    const enlace = document.createElement("a");
+                    enlace.href = p.link;
+                    enlace.textContent = p.link;
+                    enlace.target = "_blank";
+
+                    li.appendChild(avatar);
+                    li.appendChild(enlace);
+                    lista.appendChild(li);
+                });
+            }
+
+            // === Guardar detalle al hacer clic ===
             lista.addEventListener("click", (e) => {
                 const li = e.target.closest("li.posteo");
                 if (!li) return;
         
-                // Evitar que los clics en links redirijan antes
-                if (e.target.tagName === "A") return;
+                if (e.target.tagName === "A") return; // si clic en link, abrir normal
         
                 const contenido = li.textContent.trim();
                 const link = li.querySelector("a") ? li.querySelector("a").href : "";
         
-                // Guardar en localStorage
                 localStorage.setItem("posteoDetalle", JSON.stringify({contenido, link}));
         
-                // Redirigir
                 window.location.href="{{ url_for('posteo') }}";
             });
-        
+
             function agregarPosteo() {
                 const valor = input.value.trim();
                 if (!valor) return;
-    
+
                 // ✅ Validar que sea link de GitHub
                 const regexGithub = /^https?:\/\/(www\.)?github\.com\/.+/i;
                 if (!regexGithub.test(valor)) {
@@ -82,36 +106,26 @@
                     input.focus();
                     return;
                 }
-        
+
                 const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
-        
-                const li = document.createElement("li");
-                li.classList.add("posteo");
-                li.style.display = "flex";
-                li.style.alignItems = "center";
-        
-                const avatar = generarAvatar(email);
-        
-                const enlace = document.createElement("a");
-                enlace.href = valor;
-                enlace.textContent = valor;
-                enlace.target = "_blank";
-        
-                li.appendChild(avatar);
-                li.appendChild(enlace);
-                lista.appendChild(li);
-        
+
+                // Guardar en array
+                posteos.push({ email: email, link: valor });
+                localStorage.setItem("posteos", JSON.stringify(posteos));
+
+                // Renderizar
+                renderPosteos();
+
                 input.value = "";
                 input.focus();
             }
-        
+
             boton.addEventListener("click", agregarPosteo);
             input.addEventListener("keypress", (e) => { if (e.key === "Enter") agregarPosteo(); });
+
+            // Render al inicio
+            renderPosteos();
         })();
     </script>
-    
-        
-
-
 </body>
 </html>
