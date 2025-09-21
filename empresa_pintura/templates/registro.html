@@ -45,49 +45,63 @@
 
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-  
-    window.addEventListener('DOMContentLoaded', () => {
-      const firebaseConfig = {
-        apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
-        authDomain: "empresa-tecnologia.firebaseapp.com",
-        projectId: "empresa-tecnologia",
-        storageBucket: "empresa-tecnologia.appspot.com",
-        messagingSenderId: "317305921158",
-        appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
-        measurementId: "G-3P63NE5HQF"
-      };
-  
-      // 🔐 Inicializar Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-  
-      // 🎯 Referencias al formulario y elementos
-      const registerForm = document.getElementById('login-form');
-      const messageDiv = document.getElementById('message');
-  
-      registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-  
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-  
-        messageDiv.textContent = '';
-        messageDiv.style.color = 'black';
-  
-        try {
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          messageDiv.style.color = 'green';
-          messageDiv.textContent = `Registro exitoso. Bienvenido ${userCredential.user.email}`;
-          registerForm.reset();
-        } catch (error) {
-          messageDiv.style.color = 'red';
-          messageDiv.textContent = `Error en registro: ${error.message}`;
-        }
-      });
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVNU-cb9DQRk395LE2tjhI7FJKBjkzvXg",
+      authDomain: "empresa-tecnologia.firebaseapp.com",
+      projectId: "empresa-tecnologia",
+      storageBucket: "empresa-tecnologia.appspot.com",
+      messagingSenderId: "317305921158",
+      appId: "1:317305921158:web:b863bf634cfe6adcaffb07",
+      measurementId: "G-3P63NE5HQF"
+    };
+
+    // 🔐 Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🎯 Referencias al formulario y elementos
+    const registerForm = document.getElementById('login-form');
+    const messageDiv = document.getElementById('message');
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      messageDiv.textContent = '';
+      messageDiv.style.color = 'black';
+
+      // 🚨 Validación de dominio
+      if (!email.endsWith('@tecnologia.com')) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'Solo se permiten emails con dominio @tecnologia.com';
+        return;
+      }
+
+      if (!email || password.length < 6) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'Por favor ingresa un email válido y contraseña de al menos 6 caracteres.';
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        messageDiv.style.color = 'green';
+        messageDiv.textContent = `Registro exitoso. Bienvenido ${userCredential.user.email}`;
+        registerForm.reset();
+      } catch (error) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = `Error en registro: ${error.message}`;
+      }
     });
-  </script>
+  });
+</script>
+
 
 </body>
 </html>
