@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/posteo.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>{{ posteo.titulo }}</title>
+</head>
+<body>
+
+  <header class="top-bar">
+
+    <div class="top-right">
+      <h1 class="title">
+        <a href="{{ posteo.titulo }}" target="_blank">{{ posteo.titulo }}</a>
+      </h1>
+      <p>Publicado por: {{ posteo.usuario }}</p>
+    </div>
+  </header>
+
+  <!-- Comentarios -->
+  <section class="general" id="chat-section">
+    <ul class="chat-contenedor" id="chat-mensajes">
+      <li class="posteo">Cargando comentarios...</li>
+    </ul>
+    <div class="formulario-posteo">
+      <input type="text" id="input-mensaje" placeholder="Escribe un comentario..." />
+      <button id="btn-enviar"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </section>
+
+  <!-- Calificación -->
+  <section class="calificacion" id="rating-section">
+    <h3>Califica este posteo ⭐</h3>
+    <div class="estrellas">
+      <i class="fa fa-star fa-regular" data-value="5"></i>
+      <i class="fa fa-star fa-regular" data-value="4"></i>
+      <i class="fa fa-star fa-regular" data-value="3"></i>
+      <i class="fa fa-star fa-regular" data-value="2"></i>
+      <i class="fa fa-star fa-regular" data-value="1"></i>
+    </div>
+    <p id="resultado-rating">Promedio actual: -</p>
+    <ul id="lista-rating"></ul>
+  </section>
+<script>
+(function () {
+  const btnEnviar = document.getElementById("btn-enviar");
+  const inputMensaje = document.getElementById("input-mensaje");
+  const chatMensajes = document.getElementById("chat-mensajes");
+  const estrellas = document.querySelectorAll(".estrellas i");
+  const resultadoRating = document.getElementById("resultado-rating");
+  const listaRating = document.getElementById("lista-rating");
+
+  const posteoId = {{ posteo.id }};
+
+  // ===============================
+  // COMENTARIOS
+  // ===============================
+  async function cargarComentarios() {
+    chatMensajes.innerHTML = "";
+    const res = await fetch(`/api/comentarios/${posteoId}`);
+    const data = await res.json();
+
+    if (data.length === 0) {
+      const li = document.createElement("li");
+      li.classList.add("posteo");
+      li.textContent = "Sé el primero en comentar 🎉";
+      chatMensajes.appendChild(li);
+      return;
+    }
+
+    data.forEach(com => {
+      const li = document.createElement("li");
+      li.classList.add("posteo");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+
+      const span = document.createElement("span");
+      span.textContent = com.usuario + ": " + com.contenido;
+
+      li.appendChild(span);
+      chatMensajes.appendChild(li);
+    });
+  }
+
+  async function enviarMensaje() {
+    const mensaje = inputMensaje.value.trim();
+    if (!mensaje) return;
+
+    const res = await fetch("/empleado/comentario", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_posteo: posteoId, contenido: mensaje })
+    });
+
+    if (res.ok) {
+      inputMensaje.value = "";
+      await cargarComentarios(); // 🔹 recargar después de enviar
+    } else {
+      console.error("Error al enviar comentario");
+    }
+  }
+
+  // ===============================
+  // CALIFICACIONES
+  // ===============================
+  async function cargarCalificaciones() {
+    listaRating.innerHTML = "";
+    const res = await fetch(`/api/calificaciones/${posteoId}`);
+    const data = await res.json();
+
+    if (data.length === 0) {
+      resultadoRating.textContent = "Promedio actual: -";
+      return;
+    }
+
+    const suma = data.reduce((acc, c) => acc + c.valor, 0);
+    const promedio = (suma / data.length).toFixed(1);
+    resultadoRating.textContent = `Promedio actual: ${promedio} ⭐`;
+
+    data.forEach((c) => {
+      const li = document.createElement("li");
+      li.textContent = `${c.usuario}: ${c.valor} estrellas`;
+      listaRating.appendChild(li);
+    });
+  }
+
+  estrellas.forEach(star => {
+    star.addEventListener("click", async () => {
+      const valor = parseInt(star.getAttribute("data-value"));
+      await fetch("/empleado/calificacion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_posteo: posteoId, valor })
+      });
+      cargarCalificaciones();
+    });
+  });
+
+  // ===============================
+  // Eventos de Comentarios
+  // ===============================
+  btnEnviar.addEventListener("click", enviarMensaje);
+  inputMensaje.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      enviarMensaje();
+    }
+  });
+
+  // ===============================
+  // Inicialización
+  // ===============================
+  cargarComentarios();
+  cargarCalificaciones();
+
+})();
+</script>
+
+</body>
+</html>

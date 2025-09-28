@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/posteos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Posteos</title>
+</head>
+<body>
+
+    <h1>POSTEOS</h1>
+
+    <section class="general">
+        <ul id="lista-posteos"></ul>
+        
+        <div class="formulario-posteo">
+            <input type="text" id="input-posteo" placeholder="Escribe un link de GitHub..." />
+            <button id="btn-agregar">➤</button>
+            <div id="error-posteo" class="error"></div>
+        </div>
+    </section>
+
+    <script>
+    (function() {
+        const input = document.getElementById("input-posteo");
+        const boton = document.getElementById("btn-agregar");
+        const lista = document.getElementById("lista-posteos");
+
+        let posteos = [];
+
+        function generarAvatar(email) {
+            const letras = email.substring(0, 3).toUpperCase();
+            const colores = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8", "#6A5ACD"];
+            const color = colores[Math.floor(Math.random() * colores.length)];
+
+            const avatar = document.createElement("div");
+            avatar.classList.add("avatar");
+            avatar.style.backgroundColor = color;
+            avatar.textContent = letras;
+
+            return avatar;
+        }
+
+        function renderPosteos() {
+            lista.innerHTML = "";
+
+            if (posteos.length === 0) {
+                const li = document.createElement("li");
+                li.classList.add("posteo");
+                li.textContent = "Bienvenido a los posteos 🎉";
+                lista.appendChild(li);
+                return;
+            }
+
+            posteos.forEach(p => {
+                const li = document.createElement("li");
+                li.classList.add("posteo");
+                li.style.display = "flex";
+                li.style.alignItems = "center";
+
+                const avatar = generarAvatar(p.usuario || "anon");
+
+                const enlace = document.createElement("a");
+                enlace.href = "/posteo/" + p.id;   // 🔹 ahora correcto
+                enlace.textContent = p.titulo;
+                enlace.target = "_self";
+
+                const descripcion = document.createElement("p");
+                descripcion.textContent = p.descripcion;
+                descripcion.style.marginLeft = "10px";
+
+                li.appendChild(avatar);
+                li.appendChild(enlace);
+                li.appendChild(descripcion);
+                lista.appendChild(li);
+            });
+        }
+
+        async function cargarPosteosDesdeServidor() {
+            try {
+                const res = await fetch("/api/posteos");
+                const data = await res.json();
+                posteos = data;
+                renderPosteos();
+            } catch (err) {
+                console.error("Error al cargar posteos:", err);
+            }
+        }
+
+        async function agregarPosteo() {
+            const valor = input.value.trim();
+            if (!valor) return;
+
+            const regexGithub = /^https?:\/\/(www\.)?github\.com\/.+/i;
+            if (!regexGithub.test(valor)) {
+                alert("Solo se permiten links de GitHub (ej: https://github.com/usuario/repositorio)");
+                input.value = "";
+                input.focus();
+                return;
+            }
+
+            try {
+                const res = await fetch("/empleado/posteo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        titulo: valor,
+                        descripcion: "Subido por el usuario desde el cliente"
+                    })
+                });
+
+                if (!res.ok) {
+                    throw new Error("Error al crear posteo");
+                }
+
+                await cargarPosteosDesdeServidor();
+                input.value = "";
+                input.focus();
+            } catch (err) {
+                alert("Error al subir posteo");
+                console.error(err);
+            }
+        }
+
+        boton.addEventListener("click", agregarPosteo);
+        input.addEventListener("keypress", (e) => { if (e.key === "Enter") agregarPosteo(); });
+
+        cargarPosteosDesdeServidor();
+    })();
+</script>
+
+</body>
+</html>

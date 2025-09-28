@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Directo</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+    
+    <script src="https://kit.fontawesome.com/a2d9d6c54d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<section class="general">
+    <ul class="chat-contenedor" id="chat-mensajes">
+        <li class="posteo">Bienvenido al chat directo 🎉</li>
+    </ul>
+
+    <div class="formulario-posteo">
+        <input type="text" id="input-mensaje" placeholder="Escribe un mensaje..." />
+        <button id="btn-enviar"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</section>
+
+<script>
+(function() {
+    // 🔹 Aseguramos que Flask pase bien los valores a JS
+    const remitenteId = {{ remitente_id | tojson }};
+    const destinatarioId = {{ destinatario_id | tojson }};
+
+    const chatMensajes = document.getElementById("chat-mensajes");
+    const inputMensaje = document.getElementById("input-mensaje");
+    const btnEnviar = document.getElementById("btn-enviar");
+
+    // ===========================
+    // Renderizar mensajes
+    // ===========================
+    function renderMensajes(mensajes) {
+        chatMensajes.innerHTML = "";
+        if (mensajes.length === 0) {
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+            li.textContent = "No hay mensajes todavía.";
+            chatMensajes.appendChild(li);
+            return;
+        }
+        mensajes.forEach(m => {
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+
+            // 🔹 En tu BD es "mensaje"
+            const texto = m.mensaje || "[sin texto]";
+            const remitente = m.usuario || m.nombre || "Desconocido";
+
+            li.textContent = `${remitente}: ${texto}`;
+            chatMensajes.appendChild(li);
+        });
+    }
+
+    // ===========================
+    // Cargar mensajes
+    // ===========================
+    async function cargarMensajes() {
+        try {
+            const res = await fetch(`/chat_directo/mensajes/${remitenteId}/${destinatarioId}`);
+            const data = await res.json();
+            renderMensajes(data.mensajes);
+        } catch (error) {
+            console.error("❌ Error cargando mensajes:", error);
+        }
+    }
+
+    // ===========================
+    // Enviar mensaje
+    // ===========================
+    async function enviarMensaje() {
+        const mensaje = inputMensaje.value.trim();
+        if (!mensaje) return;
+
+        try {
+            const res = await fetch("/chat_directo/enviar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    remitente_id: remitenteId,       // 🔹 Agregado
+                    destinatario_id: destinatarioId, // 🔹 Agregado
+                    mensaje: mensaje                 // 🔹 Clave correcta
+                })
+            });
+
+            const data = await res.json();
+            if (data.error) {
+                console.error("❌ Error backend:", data.error);
+                return;
+            }
+
+            inputMensaje.value = "";
+            cargarMensajes();
+        } catch (error) {
+            console.error("❌ Error enviando mensaje:", error);
+        }
+    }
+
+    btnEnviar.addEventListener("click", enviarMensaje);
+    inputMensaje.addEventListener("keypress", e => {
+        if (e.key === "Enter") enviarMensaje();
+    });
+
+    // ===========================
+    // Inicializar
+    // ===========================
+    cargarMensajes();
+    setInterval(cargarMensajes, 2000);
+})();
+
+</script>
+
+</body>
+</html>
