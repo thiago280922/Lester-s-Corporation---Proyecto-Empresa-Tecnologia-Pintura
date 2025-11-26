@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/posteos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>POSTEOS</h1>
+
+    <section class="general">
+        <ul id="lista-posteos"></ul>
+        
+        <div class="formulario-posteo">
+            <input type="text" id="input-posteo" placeholder="Escribe un link de GitHub..." />
+            <button id="btn-agregar">➤</button>
+            <div id="error-posteo" class="error"></div> <!-- 🟥 Mensaje de error -->
+        </div>
+    </section>
+
+    <script>
+        (function() {
+            const input = document.getElementById("input-posteo");
+            const boton = document.getElementById("btn-agregar");
+            const lista = document.getElementById("lista-posteos");
+
+            // Recuperar posteos de localStorage
+            let posteos = JSON.parse(localStorage.getItem("posteos")) || [];
+
+            function generarAvatar(email) {
+                const letras = email.substring(0, 3).toUpperCase();
+                const colores = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
+                const color = colores[Math.floor(Math.random() * colores.length)];
+        
+                const avatar = document.createElement("div");
+                avatar.classList.add("avatar");
+                avatar.style.backgroundColor = color;
+                avatar.textContent = letras;
+        
+                return avatar;
+            }
+
+            function renderPosteos() {
+                lista.innerHTML = "";
+
+                if (posteos.length === 0) {
+                    const li = document.createElement("li");
+                    li.classList.add("posteo");
+                    li.textContent = "Bienvenido a los posteos 🎉";
+                    lista.appendChild(li);
+                    return;
+                }
+
+                posteos.forEach(p => {
+                    const li = document.createElement("li");
+                    li.classList.add("posteo");
+                    li.style.display = "flex";
+                    li.style.alignItems = "center";
+
+                    const avatar = generarAvatar(p.email);
+
+                    const enlace = document.createElement("a");
+                    enlace.href = p.link;
+                    enlace.textContent = p.link;
+                    enlace.target = "_blank";
+
+                    li.appendChild(avatar);
+                    li.appendChild(enlace);
+                    lista.appendChild(li);
+                });
+            }
+
+            // === Guardar detalle al hacer clic ===
+            lista.addEventListener("click", (e) => {
+                const li = e.target.closest("li.posteo");
+                if (!li) return;
+        
+                if (e.target.tagName === "A") return; // si clic en link, abrir normal
+        
+                const contenido = li.textContent.trim();
+                const link = li.querySelector("a") ? li.querySelector("a").href : "";
+        
+                localStorage.setItem("posteoDetalle", JSON.stringify({contenido, link}));
+        
+                window.location.href="{{ url_for('posteo') }}";
+            });
+
+            function agregarPosteo() {
+                const valor = input.value.trim();
+                if (!valor) return;
+
+                // ✅ Validar que sea link de GitHub
+                const regexGithub = /^https?:\/\/(www\.)?github\.com\/.+/i;
+                if (!regexGithub.test(valor)) {
+                    alert("Solo se permiten links de GitHub (ej: https://github.com/usuario/repositorio)");
+                    input.value = "";
+                    input.focus();
+                    return;
+                }
+
+                const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
+
+                // Guardar en array
+                posteos.push({ email: email, link: valor });
+                localStorage.setItem("posteos", JSON.stringify(posteos));
+
+                // Renderizar
+                renderPosteos();
+
+                input.value = "";
+                input.focus();
+            }
+
+            boton.addEventListener("click", agregarPosteo);
+            input.addEventListener("keypress", (e) => { if (e.key === "Enter") agregarPosteo(); });
+
+            // Render al inicio
+            renderPosteos();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+/* Burbujita de usuario */
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 14px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Contenedor de mensaje */
+.mensaje {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin: 8px 0;
+}
+
+/* Texto dentro del mensaje */
+.mensaje span {
+    font-size: 15px;
+    color: #333;
+}
+
+/* Avatar de usuario */
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    flex-shrink: 0;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/* Contenedor del mensaje */
+.posteo {
+    display: flex;
+    align-items: center;
+    background-color: #B1B1A7;
+    border: 1px solid #E9E9E0;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 12px;
+    list-style: none;
+    transition: 0.3s;
+}
+
+.posteo:hover {
+    background-color: #3D6197;
+    color: #fff;
+    transform: scale(1.01);
+}
+
+/* Ajustes input y botón */
+.formulario-posteo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 10px;
+    background: #E9E9E0;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.formulario-posteo input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #B1B1A7;
+    border-radius: 6px;
+    outline: none;
+    margin-right: 10px;
+}
+
+.formulario-posteo button {
+    background-color: #2D4D84;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.formulario-posteo button:hover {
+    background-color: #203D75;
+}
+
+/* Iconos en botones */
+button i {
+    margin-right: 6px;
+}
+
+ul, ol {
+    margin: 0;       /* elimina el margen externo */
+    padding: 0;      /* elimina el padding interno */
+    list-style: none; /* elimina las viñetas */
+}

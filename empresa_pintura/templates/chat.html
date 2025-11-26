@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>CHAT - Empresa pinturas</title>
+    
+</head>
+<body>
+
+<section class="primer-seccion">
+    <div class="avatar-bar-wrap">
+        <div class="avatar-bar" id="avatarBar"></div>
+    </div>
+    <!-- Sección izquierda -->
+    <section class="agregar">
+        <button id="btn-posteos"><i class="fa-solid fa-plus"></i> Posteos</button>
+        <button id="btn-buscar"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+    </section>
+
+    <!-- Sección derecha (contactos) -->
+    <section class="contactos" id="lista-contactos">
+        <button><i class="fa-solid fa-user"></i> Empleado 1</button>
+        <button><i class="fa-solid fa-user"></i> Empleado 2</button>
+        <button><i class="fa-solid fa-user"></i> Empleado 3</button>
+        <button id="btn-mover"><i class="fa-solid fa-arrow-right"></i></button>
+    </section> 
+</section>
+    
+<!-- Chat general -->
+<section class="general">
+    <ul class="chat-contenedor" id="chat-mensajes">
+        <li class="posteo">Bienvenido al chat 🎉</li>
+    </ul>
+
+    <div class="formulario-posteo">
+        <input type="text" id="input-mensaje" placeholder="Escribe un mensaje..." />
+        <button id="btn-enviar"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</section>
+
+<!-- Modal buscador de empleados -->
+<div id="modal-buscar" class="modal">
+    <div class="modal-contenido">
+        <span id="cerrar-modal">&times;</span>
+        <h2><i class="fa-solid fa-magnifying-glass"></i> Buscar empleado</h2>
+
+        <input type="text" id="input-buscar-empleado" placeholder="Nombre antes del @">
+
+        <button id="btn-buscar-empleado"><i class="fa-solid fa-search"></i> Buscar</button>
+        <button id="btn-iniciar-chat">Iniciar chat</button>
+
+        <ul id="lista-chats"></ul>
+        <div id="resultado-busqueda"></div>
+    </div>
+</div>
+
+
+
+<script>
+(function() {
+    const btnPosteos = document.getElementById("btn-posteos");
+    const btnBuscar = document.getElementById("btn-buscar");
+    const btnEnviar = document.getElementById("btn-enviar");
+    const inputMensaje = document.getElementById("input-mensaje");
+    const chatMensajes = document.getElementById("chat-mensajes");
+
+    const modal = document.getElementById("modal-buscar");
+    const cerrarModal = document.getElementById("cerrar-modal");
+
+    // Recuperar historial
+    let mensajes = JSON.parse(localStorage.getItem("mensajesChat")) || [];
+
+    function renderMensajes() {
+        chatMensajes.innerHTML = "";
+
+        if (mensajes.length === 0) {
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+            li.textContent = "Bienvenido al chat 🎉";
+            chatMensajes.appendChild(li);
+            return;
+        }
+
+        mensajes.forEach(msg => {
+            const li = document.createElement("li");
+            li.classList.add("posteo");
+            li.style.display = "flex";
+            li.style.alignItems = "center";
+
+            const avatar = generarAvatar(msg.email);
+            const span = document.createElement("span");
+            span.textContent = msg.texto;
+
+            li.appendChild(avatar);
+            li.appendChild(span);
+            chatMensajes.appendChild(li);
+        });
+    }
+    renderMensajes();
+
+    function generarAvatar(email) {
+        const letras = email.substring(0, 3).toUpperCase();
+        const colores = ["#FF6B6B","#4ECDC4","#45B7D1","#FFA07A","#98D8C8","#6A5ACD"];
+        const color = colores[Math.floor(Math.random() * colores.length)];
+
+        const avatar = document.createElement("div");
+        avatar.classList.add("avatar");
+        avatar.style.backgroundColor = color;
+        avatar.textContent = letras;
+        return avatar;
+    }
+
+    if(btnPosteos) btnPosteos.addEventListener("click", () => window.location.href="{{ url_for('posteos') }}");
+    if(btnBuscar) btnBuscar.addEventListener("click", () => modal.style.display = "block");
+    if(cerrarModal) cerrarModal.addEventListener("click", () => modal.style.display = "none");
+
+    function enviarMensaje() {
+        const mensaje = inputMensaje.value.trim();
+        if (!mensaje) return;
+
+        const email = localStorage.getItem("usuarioEmail") || "anon@demo.com";
+
+        // Guardar en array + localStorage
+        mensajes.push({ email, texto: mensaje });
+        localStorage.setItem("mensajesChat", JSON.stringify(mensajes));
+
+        renderMensajes();
+        inputMensaje.value = "";
+    }
+
+    if(btnEnviar) btnEnviar.addEventListener("click", enviarMensaje);
+    if(inputMensaje) inputMensaje.addEventListener("keypress", e => { if (e.key === "Enter") enviarMensaje(); });
+
+    // Buscar empleado
+    document.getElementById("btn-buscar-empleado").addEventListener("click", async () => {
+        const id = document.getElementById("input-buscar-empleado").value.trim();
+        if(!id) return;
+
+        const res = await fetch(`/buscar_empleado?id=${id}`);
+        const data = await res.json();
+
+        const resultado = document.getElementById("resultado-busqueda");
+        if(data.error) {
+            resultado.textContent = data.error;
+            resultado.style.color = "red";
+        } else {
+            resultado.textContent = `${data.nombre} - ${data.puesto}`;
+            resultado.style.color = "green";
+        }
+    });
+
+    document.getElementById("btn-iniciar-chat").addEventListener("click", async () => {
+        const id = document.getElementById("input-buscar-empleado").value.trim();
+        if(!id) return alert("Ingresa el ID del empleado");
+
+        const res = await fetch(`/buscar_empleado?id=${id}`);
+        const data = await res.json();
+        if(data.error) return alert(data.error);
+
+        const usuarioId = localStorage.getItem("usuarioId");
+        if(!usuarioId) return alert("No se pudo obtener tu ID de usuario");
+
+        window.location.href = `/chat_directo/${usuarioId}/${id}`;
+    });
+
+})();
+</script>
+
+
+</body>
+</html>

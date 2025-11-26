@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.ico') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <title>Iniciar sesión</title>
+</head>
+<body>
+
+  <div class="seccion1">
+    <div class="div">
+      <form method="POST" action="{{ url_for('login.login') }}">
+        <h2 class="subtitulo">Iniciar sesión</h2>
+
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+          {% if mensajes %}
+            {% for categoria, mensaje in mensajes %}
+              <div class="mensaje-error" style="color: {% if categoria == 'error' %}red{% else %}green{% endif %};">
+                {{ mensaje }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <div class="email-input">
+          <input name="email" class="input" type="email" required />
+          <label>Email <i class="fa-solid fa-envelope"></i></label>
+        </div>
+        
+        <div class="password-input">
+          <input name="password" class="input" type="password" minlength="6" required />
+          <label>Contraseña <i class="fa-solid fa-lock"></i></label>
+        </div>
+
+        <button type="submit">Iniciar sesión</button>
+
+        <p>¿No tenés cuenta? <a href="{{ url_for('login.registro_form') }}">Registrate</a></p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
